@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Assessment - MindShield</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #fff8fc;
+            --bg-secondary: #f7efff;
+            --card: rgba(255,255,255,0.78);
+            --primary: #c084fc;
+            --secondary: #f9a8d4;
+            --text-dark: #5b326f;
+            --text-light: #7b7285;
+            --shadow: rgba(192,132,252,0.16);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, #ffe7f4 0%, transparent 26%),
+                radial-gradient(circle at bottom right, #efe0ff 0%, transparent 28%),
+                linear-gradient(135deg, var(--bg-main), var(--bg-secondary));
+            color: var(--text-dark);
+            padding: 28px 16px;
+        }
+
+        .page {
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 30px;
+            box-shadow: 0 14px 34px var(--shadow);
+            border: 1px solid rgba(255,255,255,0.45);
+        }
+
+        .top-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #fce7f3, #f3e8ff);
+            color: #7c3aed;
+            padding: 10px 16px;
+            border-radius: 14px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            box-shadow: 0 8px 18px rgba(192,132,252,0.12);
+        }
+
+        h1 {
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            font-size: 30px;
+        }
+
+        .subtext {
+            color: var(--text-light);
+            margin-bottom: 26px;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(255,255,255,0.75);
+            border-radius: 22px;
+            box-shadow: 0 10px 24px rgba(192,132,252,0.08);
+            border: 1px solid rgba(255,255,255,0.55);
+        }
+
+        .question h3 {
+            margin-bottom: 14px;
+            font-size: 18px;
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.85);
+            padding: 12px 14px;
+            border-radius: 16px;
+            border: 1px solid #f1e2fb;
+            cursor: pointer;
+            transition: 0.2s ease;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .option-label:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #fff6fb, #f8f0ff);
+        }
+
+        input[type="radio"] {
+            accent-color: #d946ef;
+            transform: scale(1.1);
+        }
+
+        .actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        button {
+            border: none;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            padding: 14px 18px;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 12px 24px rgba(232,121,249,0.16);
+            transition: 0.25s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .back {
+            display: inline-block;
+            color: #d946ef;
+            text-decoration: none;
+            font-weight: 600;
+            align-self: center;
+        }
+
+        @media (max-width: 700px) {
+            .card {
+                padding: 22px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .question {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page">
+        <div class="card">
+            <div class="top-badge">Weekly Wellness Check</div>
+
+            <h1>Weekly Assessment</h1>
+            <p class="subtext">
+                Take a gentle pause and answer honestly. This helps MindShield understand your recent emotional state and reflect your current risk level more accurately.
+            </p>
+
+            <form action="/submit-assessment" method="POST">
+
+                <div class="question">
+                    <h3>1. How often have you felt overwhelmed this week?</h3>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="q1" value="1" required> Rarely</label>
+                        <label class="option-label"><input type="radio" name="q1" value="2"> Sometimes</label>
+                        <label class="option-label"><input type="radio" name="q1" value="3"> Often</label>
+                        <label class="option-label"><input type="radio" name="q1" value="4"> Almost every day</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>2. How well have you been sleeping lately?</h3>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="q2" value="1" required> Very well</label>
+                        <label class="option-label"><input type="radio" name="q2" value="2"> Okay</label>
+                        <label class="option-label"><input type="radio" name="q2" value="3"> Poorly</label>
+                        <label class="option-label"><input type="radio" name="q2" value="4"> Very poorly</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>3. How anxious have you felt about studies or life recently?</h3>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="q3" value="1" required> Very little</label>
+                        <label class="option-label"><input type="radio" name="q3" value="2"> A little</label>
+                        <label class="option-label"><input type="radio" name="q3" value="3"> Quite a lot</label>
+                        <label class="option-label"><input type="radio" name="q3" value="4"> Extremely</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>4. How motivated have you felt this week?</h3>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="q4" value="1" required> Very motivated</label>
+                        <label class="option-label"><input type="radio" name="q4" value="2"> Somewhat motivated</label>
+                        <label class="option-label"><input type="radio" name="q4" value="3"> Low motivation</label>
+                        <label class="option-label"><input type="radio" name="q4" value="4"> No motivation</label>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <h3>5. How emotionally drained have you felt?</h3>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="q5" value="1" required> Not at all</label>
+                        <label class="option-label"><input type="radio" name="q5" value="2"> Slightly</label>
+                        <label class="option-label"><input type="radio" name="q5" value="3"> Moderately</label>
+                        <label class="option-label"><input type="radio" name="q5" value="4"> Severely</label>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button type="submit">Submit Assessment</button>
+
+                    {% if session["role"] == "student" %}
+                        <a class="back" href="/student-dashboard">Back to Dashboard</a>
+                    {% elif session["role"] == "self" %}
+                        <a class="back" href="/self-dashboard">Back to Dashboard</a>
+                    {% else %}
+                        <a class="back" href="/">Back</a>
+                    {% endif %}
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - MindShield</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #fff8fc;
+            --bg-secondary: #f7efff;
+            --card: rgba(255,255,255,0.75);
+            --primary: #c084fc;
+            --secondary: #f9a8d4;
+            --accent: #e879f9;
+            --text-dark: #5b326f;
+            --text-light: #7b7285;
+            --shadow: rgba(192,132,252,0.16);
+            --white: #fff;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+
+        body {
+            background:
+                radial-gradient(circle at top left, #ffe7f4 0%, transparent 26%),
+                radial-gradient(circle at bottom right, #efe0ff 0%, transparent 28%),
+                linear-gradient(135deg, var(--bg-main), var(--bg-secondary));
+            color: var(--text-dark);
+        }
+
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(255,255,255,0.4);
+            padding: 28px 20px;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 28px;
+            font-size: 24px;
+            color: var(--text-dark);
+        }
+
+        .sidebar ul { list-style: none; }
+        .sidebar ul li { margin-bottom: 16px; }
+
+        .sidebar ul li a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 15px;
+            display: block;
+            padding: 10px 12px;
+            border-radius: 14px;
+            transition: 0.2s ease;
+        }
+
+        .sidebar ul li a:hover {
+            background: rgba(249,168,212,0.18);
+            color: var(--text-dark);
+        }
+
+        .main { flex: 1; padding: 28px; }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            gap: 20px;
+        }
+
+        .topbar h1 {
+            font-size: 30px;
+            margin-bottom: 6px;
+        }
+
+        .topbar p {
+            color: var(--text-light);
+        }
+
+        .risk-box {
+            background: linear-gradient(135deg, #fce7f3, #f3e8ff);
+            color: #7c3aed;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-weight: 700;
+            box-shadow: 0 10px 24px var(--shadow);
+        }
+
+        .risk-box.high {
+            background: linear-gradient(135deg, #ffe4ec, #ffd7e6);
+            color: #be185d;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card, .panel {
+            background: var(--card);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 12px 30px var(--shadow);
+            border: 1px solid rgba(255,255,255,0.45);
+        }
+
+        .stat-card h3 {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .stat-card p {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(300px, 1fr));
+            gap: 18px;
+        }
+
+        .panel.large { grid-column: span 2; }
+
+        .panel h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .subtext {
+            color: var(--text-light);
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .wellness-form input,
+        .habit-add-form input,
+        textarea {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #efdaf9;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            background: rgba(255,255,255,0.86);
+            outline: none;
+        }
+
+        .wellness-form input:focus,
+        .habit-add-form input:focus,
+        textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(192,132,252,0.12);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 12px 16px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 12px 24px rgba(232,121,249,0.16);
+            transition: 0.25s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn.pink {
+            background: linear-gradient(135deg, #f9a8d4, #e879f9);
+        }
+
+        .btn.green {
+            background: linear-gradient(135deg, #f9a8d4, #c084fc);
+        }
+
+        .journal-preview {
+            margin-top: 12px;
+            background: rgba(255,255,255,0.8);
+            padding: 14px;
+            border-radius: 16px;
+            color: var(--text-dark);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .video-card {
+            text-decoration: none;
+            color: inherit;
+            background: rgba(255,255,255,0.8);
+            padding: 16px;
+            border-radius: 18px;
+            transition: 0.2s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(135deg, #fff6fb, #f8f0ff);
+        }
+
+        .video-card h4 { margin-bottom: 8px; }
+
+        .habit-add-form {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .habit-add-form input { margin-bottom: 0; }
+
+        .habit-month-label {
+            margin-bottom: 14px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .habit-block {
+            background: rgba(255,255,255,0.7);
+            border-radius: 18px;
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+
+        .habit-info {
+            margin-bottom: 10px;
+        }
+
+        .habit-info h4 {
+            margin-bottom: 4px;
+        }
+
+        .habit-info span {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .habit-calendar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .habit-day-form { margin: 0; }
+
+        .habit-day-btn {
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 12px;
+            background: #f3e8ff;
+            color: var(--text-dark);
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .habit-day-btn.done {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: white;
+        }
+
+        .habit-day-btn:disabled {
+            background: #f7f3fb;
+            color: #b4a8bf;
+            cursor: not-allowed;
+        }
+
+        .today-mood-box {
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .today-mood-box img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 18px;
+            box-shadow: 0 10px 22px rgba(192,132,252,0.14);
+        }
+
+        .today-mood-empty {
+            font-size: 26px;
+            color: #c4b4cf;
+        }
+
+        .mood-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
+            gap: 14px;
+        }
+
+        .mood-card {
+            border: none;
+            background: rgba(255,255,255,0.72);
+            border-radius: 18px;
+            padding: 12px;
+            cursor: pointer;
+            transition: 0.2s ease;
+            text-align: center;
+        }
+
+        .mood-card:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(135deg, #fff5fb, #f8f0ff);
+        }
+
+        .mood-img-box {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 8px;
+            overflow: hidden;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+        }
+
+        .mood-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .mood-card span {
+            display: block;
+            margin-top: 4px;
+            font-size: 13px;
+            color: var(--text-dark);
+        }
+
+        .wellness-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 14px;
+            height: 190px;
+            margin-top: 16px;
+        }
+
+        .day-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+            height: 150px;
+        }
+
+        .sleep-bar, .study-bar {
+            width: 18px;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .sleep-bar {
+            background: linear-gradient(to top, #c084fc, #e9d5ff);
+        }
+
+        .study-bar {
+            background: linear-gradient(to top, #f9a8d4, #fbcfe8);
+        }
+
+        .chart-label {
+            margin-top: 8px;
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: 18px;
+            margin-top: 12px;
+            color: var(--text-dark);
+            font-size: 13px;
+        }
+
+        .legend-box {
+            width: 12px;
+            height: 12px;
+            display: inline-block;
+            border-radius: 4px;
+            margin-right: 6px;
+        }
+
+        .legend-sleep { background: #c084fc; }
+        .legend-study { background: #f9a8d4; }
+
+        @media (max-width: 1000px) {
+            .dashboard-layout { flex-direction: column; }
+            .sidebar { width: 100%; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .panel.large { grid-column: span 1; }
+            .video-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-layout">
+    <aside class="sidebar">
+        <h2>MindShield</h2>
+        <ul>
+            <li><a href="/student-dashboard">Dashboard</a></li>
+            <li><a href="/assessment">Weekly Assessment</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </aside>
+
+    <main class="main">
+        <div class="topbar">
+            <div>
+                <h1>Welcome, {{ name }}</h1>
+                <p>
+🌷 Small steps every day create big changes in your wellbeing.
+</p>
+            </div>
+
+            {% if latest_assessment %}
+                <div class="risk-box {% if latest_assessment['risk_level'] == 'High' %}high{% endif %}">
+                    Risk Score: {{ latest_assessment['score'] }} • {{ latest_assessment['risk_level'] }}
+                </div>
+            {% else %}
+                <div class="risk-box">No assessment submitted yet</div>
+            {% endif %}
+        </div>
+
+        <div class="panel">
+    <h2>✨ Wellness Suggestion</h2>
+
+    {% if latest_mood %}
+
+        {% if latest_mood['mood_label'] == 'anxious' %}
+            <p>Take a 5-minute breathing break today.</p>
+
+        {% elif latest_mood['mood_label'] == 'sad' %}
+            <p>Write three things you're grateful for.</p>
+
+        {% elif latest_mood['mood_label'] == 'angry' %}
+            <p>Try a short walk before reacting.</p>
+
+        {% else %}
+            <p>Keep maintaining your healthy habits.</p>
+        {% endif %}
+
+    {% else %}
+        <p>Log a mood to receive personalized suggestions.</p>
+    {% endif %}
+</div>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <h3>Today's Mood</h3>
+                <div class="today-mood-box">
+                    {% if latest_mood %}
+                        <img src="{{ url_for('static', filename='images/moods/' + latest_mood['mood_emoji']) }}" alt="{{ latest_mood['mood_label'] }}">
+                    {% else %}
+                        <div class="today-mood-empty">—</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <h3>Sleep Hours</h3>
+                {% if latest_wellness and latest_wellness['sleep_hours'] is not none %}
+                    <p>{{ latest_wellness['sleep_hours'] }} hrs</p>
+                {% else %}
+                    <p>—</p>
+                {% endif %}
+            </div>
+
+            <div class="stat-card">
+                <h3>Study Hours</h3>
+                {% if latest_wellness and latest_wellness['study_hours'] is not none %}
+                    <p>{{ latest_wellness['study_hours'] }} hrs</p>
+                {% else %}
+                    <p>—</p>
+                {% endif %}
+            </div>
+
+            <div class="stat-card">
+                <h3>Weekly Check</h3>
+                {% if latest_assessment %}
+                    <p>Done</p>
+                {% else %}
+                    <p>Pending</p>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="dashboard-grid">
+            <div class="panel large">
+                <h2>Monthly Habit Tracker</h2>
+                <p class="subtext">Only today’s date can be marked. Your habits stay private.</p>
+
+                <form action="/add-habit" method="POST" class="habit-add-form">
+                    <input type="text" name="habit_name" placeholder="Enter a new task or habit" required>
+                    <button type="submit" class="btn">Add Task</button>
+                </form>
+
+                {% if habit_data %}
+                    <div class="habit-month-label">{{ current_month }}/{{ current_year }}</div>
+
+                    {% for habit in habit_data %}
+                        <div class="habit-block">
+                            <div class="habit-info">
+                                <h4>{{ habit.name }}</h4>
+                                <span>{{ habit.completed_count }}/{{ month_days|length }} completed</span>
+                            </div>
+
+                            <div class="habit-calendar">
+                                {% for day in month_days %}
+                                    <form action="/toggle-habit" method="POST" class="habit-day-form">
+                                        <input type="hidden" name="habit_id" value="{{ habit.id }}">
+                                        <input type="hidden" name="day" value="{{ day }}">
+                                        <input type="hidden" name="month" value="{{ current_month }}">
+                                        <input type="hidden" name="year" value="{{ current_year }}">
+                                        <button type="submit"
+                                            class="habit-day-btn {% if day in habit.completed_days %}done{% endif %}"
+                                            {% if day != now_day %}disabled{% endif %}>
+                                            {{ day }}
+                                        </button>
+                                    </form>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No tasks added yet.</p>
+                {% endif %}
+            </div>
+
+            <div class="panel">
+                <h2>Quick Mood Log</h2>
+                <p class="subtext">Choose today’s mood</p>
+
+                <form action="/save-mood" method="POST">
+                    <div class="mood-grid">
+                        <button type="submit" name="mood" value="happy" class="mood-card">
+                            <div class="mood-img-box"><img src="{{ url_for('static', filename='images/moods/happy.jpeg') }}" alt="Happy"></div><span>Happy</span>
+                        </button>
+                        <button type="submit" name="mood" value="sad" class="mood-card">
+                            <div class="mood-img-box"><img src="{{ url_for('static', filename='images/moods/sad.jpeg') }}" alt="Sad"></div><span>Sad</span>
+                        </button>
+                        <button type="submit" name="mood" value="neutral" class="mood-card">
+                            <div class="mood-img-box"><img src="{{ url_for('static', filename='images/moods/neutral.jpeg') }}" alt="Neutral"></div><span>Neutral</span>
+                        </button>
+                        <button type="submit" name="mood" value="angry" class="mood-card">
+                            <div class="mood-img-box"><img src="{{ url_for('static', filename='images/moods/angry.jpeg') }}" alt="Angry"></div><span>Angry</span>
+                        </button>
+                        <button type="submit" name="mood" value="excited" class="mood-card">
+                            <div class="mood-img-box"><img src="{{ url_for('static', filename='images/moods/excited.jpeg') }}" alt="Excited"></div><span>Excited</span>
+                        </button>
+                        <button type="submit" name="mood" value="anxious" class="mood-card">
+                            <div class="mood-img-box"><img src="{{ url_for('static', filename='images/moods/anxious.jpeg') }}" alt="Anxious"></div><span>Anxious</span>
+                        </button>
+                        <button type="submit" name="mood" value="loving" class="mood-card">
+                            <div class="mood-img-box"><img src="{{ url_for('static', filename='images/moods/loving.jpeg') }}" alt="Loving"></div><span>Loving</span>
+                        </button>
+                        <button type="submit" name="mood" value="disappointed" class="mood-card">
+                            <div class="mood-img-box"><img src="{{ url_for('static', filename='images/moods/disappointed.jpeg') }}" alt="Disappointed"></div><span>Disappointed</span>
+                        </button>
+                        <button type="submit" name="mood" value="surprised" class="mood-card">
+                            <div class="mood-img-box"><img src="{{ url_for('static', filename='images/moods/surprised.jpeg') }}" alt="Surprised"></div><span>Surprised</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="panel">
+                <h2>Sleep & Study Tracker</h2>
+                <p class="subtext">Update your latest daily wellness values.</p>
+
+                <form action="/save-wellness" method="POST" class="wellness-form">
+                    <input type="number" step="0.1" name="sleep_hours" placeholder="Enter sleep hours">
+                    <input type="number" step="0.1" name="study_hours" placeholder="Enter study hours">
+                    <button type="submit" class="btn green">Save Wellness Data</button>
+                </form>
+            </div>
+
+            <div class="panel">
+                <h2>Weekly Assessment</h2>
+                <p class="subtext">Complete your weekly mental health check.</p>
+                <a href="/assessment" class="btn">Start Assessment</a>
+            </div>
+
+            <div class="panel">
+                <h2>📝 Daily Reflection Journal</h2>
+                <form action="/save-journal" method="POST">
+                    <textarea name="content" placeholder="Write how you feel today..."></textarea>
+                    <button type="submit" class="btn">Save Entry</button>
+                </form>
+
+                {% if latest_journal %}
+                    <div class="journal-preview">
+                        <strong>Latest Entry:</strong> {{ latest_journal['content'] }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="panel">
+                <h2>Meditation & Calm</h2>
+                <div class="video-grid">
+                    <a href="https://www.youtube.com/watch?v=inpok4MKVLM" target="_blank" class="video-card">
+                        <h4>🫧 5 Minute Breathing Reset</h4><p>Quick stress relief</p>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=ZToicYcHIOU" target="_blank" class="video-card">
+                        <h4>🌸 Calm Anxiety Meditation</h4><p>Calm your mind</p>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=O-6f5wQXSu8" target="_blank" class="video-card">
+                        <h4>🌙 Deep Sleep Meditation</h4><p>Relax before bed</p>
+                    </a>
+                </div>
+            </div>
+
+            <div class="panel">
+               <h2>Weekly Wellness Analytics 📊</h2>
+<p class="subtext">
+Track your sleep and study consistency over the past week.
+</p>
+                <div class="wellness-chart">
+                    {% for item in wellness_history %}
+                        <div class="day-group">
+                            <div class="bars">
+                                <div class="sleep-bar" style="height: {{ item.sleep_height }}px;" title="Sleep: {{ item.sleep }} hrs"></div>
+                                <div class="study-bar" style="height: {{ item.study_height }}px;" title="Study: {{ item.study }} hrs"></div>
+                            </div>
+                            <div class="chart-label">{{ item.label }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="chart-legend">
+                    <div><span class="legend-box legend-sleep"></span>Sleep</div>
+                    <div><span class="legend-box legend-study"></span>Study</div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>💜 Talk To Counselor</h2>
+                <p class="subtext">
+Your conversations stay private and secure.
+</p>
+                {% if counselor_id %}
+                    <a href="/chat/{{ counselor_id }}" class="btn pink">Chat with Counselor</a>
+                {% else %}
+                    <p>No counselor assigned yet.</p>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+</div>
+
+</body>
+</html>

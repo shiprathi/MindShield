@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organization - MindShield</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fff8fc, #f7efff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 480px;
+            background: rgba(255,255,255,0.82);
+            backdrop-filter: blur(14px);
+            border-radius: 28px;
+            padding: 34px 28px;
+            box-shadow: 0 18px 40px rgba(192,132,252,0.18);
+        }
+
+        h1 {
+            color: #5b326f;
+            margin-bottom: 8px;
+        }
+
+        p {
+            color: #7b7285;
+            margin-bottom: 22px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #eedcf8;
+            border-radius: 16px;
+            font-size: 14px;
+            margin-bottom: 14px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #c084fc;
+            box-shadow: 0 0 0 4px rgba(192,132,252,0.12);
+        }
+
+        button {
+            width: 100%;
+            border: none;
+            background: linear-gradient(135deg, #f9a8d4, #c084fc);
+            color: white;
+            padding: 14px;
+            border-radius: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .back {
+            margin-top: 18px;
+            display: inline-block;
+            color: #d946ef;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Enter Organization</h1>
+    <p>Type your college or institution name.</p>
+
+    <form action="{{ url_for('role_selection') }}" method="GET">
+        <input type="text" name="org_name" placeholder="Enter organization name" required>
+        <button type="submit">Continue</button>
+    </form>
+
+    <a href="{{ url_for('signup') }}" class="back">Back</a>
+</div>
+
+</body>
+</html>

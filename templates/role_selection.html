@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Role - MindShield</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fff8fc, #f7efff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 580px;
+            background: rgba(255,255,255,0.82);
+            backdrop-filter: blur(14px);
+            border-radius: 28px;
+            padding: 34px 30px;
+            box-shadow: 0 18px 40px rgba(192,132,252,0.18);
+            text-align: center;
+        }
+
+        h1 { color: #5b326f; margin-bottom: 8px; }
+        p { color: #7b7285; margin-bottom: 24px; }
+
+        .org-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #fce7f3, #f3e8ff);
+            color: #7c3aed;
+            padding: 10px 16px;
+            border-radius: 14px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .choice-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .choice-card {
+            display: block;
+            text-decoration: none;
+            color: #5b326f;
+            background: rgba(255,255,255,0.9);
+            padding: 24px 18px;
+            border-radius: 22px;
+            box-shadow: 0 10px 24px rgba(192,132,252,0.08);
+            transition: 0.25s ease;
+        }
+
+        .choice-card:hover {
+            transform: translateY(-4px);
+            background: linear-gradient(135deg, #fff6fb, #f8f0ff);
+        }
+
+        .choice-card h2 { margin-bottom: 8px; }
+        .choice-card span { color: #7b7285; font-size: 14px; line-height: 1.6; }
+
+        .back {
+            margin-top: 22px;
+            display: inline-block;
+            color: #d946ef;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @media (max-width: 640px) {
+            .choice-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Select Your Role</h1>
+    <p>Choose how you will join under this organization.</p>
+
+    <div class="org-badge">{{ org_name }}</div>
+
+    <div class="choice-grid">
+        <a href="{{ url_for('student_signup', org_name=org_name) }}" class="choice-card">
+            <h2>Student</h2>
+            <span>Private wellness dashboard with assigned counselor chat.</span>
+        </a>
+
+        <a href="{{ url_for('counselor_signup', org_name=org_name) }}" class="choice-card">
+            <h2>Counselor</h2>
+            <span>Support assigned students and manage notes privately.</span>
+        </a>
+    </div>
+
+    <a href="{{ url_for('organization') }}" class="back">Back</a>
+</div>
+
+</body>
+</html>

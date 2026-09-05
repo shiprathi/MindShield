@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MindShield</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        :root{
+            --bg-main:#fff7fb;
+            --card:rgba(255,255,255,0.78);
+            --primary:#c084fc;
+            --secondary:#f9a8d4;
+            --text-dark:#5b326f;
+            --text-light:#7b7285;
+            --shadow:rgba(192,132,252,0.18);
+            --border:rgba(255,255,255,0.45);
+        }
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+
+            background:
+            radial-gradient(circle at top left,#ffe4f3 0%,transparent 30%),
+            radial-gradient(circle at bottom right,#eadcff 0%,transparent 30%),
+            linear-gradient(135deg,#fff8fc,#f7efff);
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:24px;
+            color:var(--text-dark);
+            overflow:hidden;
+        }
+
+        /* BLOBS */
+
+        .blob{
+            position:fixed;
+            border-radius:50%;
+            filter:blur(60px);
+            z-index:-1;
+            animation:blobFloat 8s ease-in-out infinite alternate;
+        }
+
+        .blob1{
+            width:220px;
+            height:220px;
+            background:#ffd6ea;
+            top:80px;
+            left:80px;
+        }
+
+        .blob2{
+            width:280px;
+            height:280px;
+            background:#e8d5ff;
+            bottom:80px;
+            right:80px;
+        }
+
+        .blob3{
+            width:180px;
+            height:180px;
+            background:#fbcfe8;
+            top:50%;
+            left:50%;
+        }
+
+        @keyframes blobFloat{
+            from{
+                transform:translateY(0px);
+            }
+            to{
+                transform:translateY(35px);
+            }
+        }
+
+        /* LOGIN CARD */
+
+        .login-card{
+            width:100%;
+            max-width:440px;
+
+            background:var(--card);
+            border:1px solid var(--border);
+            backdrop-filter:blur(14px);
+
+            border-radius:28px;
+            padding:34px 30px;
+
+            box-shadow:0 18px 40px var(--shadow);
+
+            animation:floatCard 5s ease-in-out infinite;
+        }
+
+        @keyframes floatCard{
+            0%{
+                transform:translateY(0px);
+            }
+
+            50%{
+                transform:translateY(-6px);
+            }
+
+            100%{
+                transform:translateY(0px);
+            }
+        }
+
+        .welcome-tag{
+            text-align:center;
+            color:#d946ef;
+            font-weight:600;
+            margin-bottom:12px;
+        }
+
+        .logo{
+            width:68px;
+            height:68px;
+
+            border-radius:20px;
+
+            background:linear-gradient(
+                135deg,
+                var(--secondary),
+                var(--primary)
+            );
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            color:white;
+            font-size:28px;
+
+            margin:0 auto 18px;
+
+            box-shadow:0 12px 25px rgba(232,121,249,0.18);
+        }
+
+        h1{
+            text-align:center;
+            font-size:30px;
+            margin-bottom:8px;
+        }
+
+        .subtitle{
+            text-align:center;
+            color:var(--text-light);
+            margin-bottom:26px;
+            line-height:1.6;
+            font-size:14px;
+        }
+
+        .form-group{
+            margin-bottom:14px;
+        }
+
+        input{
+            width:100%;
+            padding:14px 16px;
+
+            border-radius:16px;
+            border:1px solid #eedcf8;
+
+            background:rgba(255,255,255,0.85);
+
+            font-size:14px;
+            color:var(--text-dark);
+
+            outline:none;
+            transition:0.25s ease;
+        }
+
+        input:focus{
+            border-color:var(--primary);
+            box-shadow:0 0 0 4px rgba(192,132,252,0.12);
+        }
+
+        .error-message{
+            background:#fff0f5;
+            color:#c2417d;
+            padding:11px 13px;
+            border-radius:14px;
+            margin-bottom:14px;
+            font-size:13px;
+            border:1px solid #ffd4e8;
+        }
+
+        button{
+            width:100%;
+            border:none;
+
+            background:linear-gradient(
+                135deg,
+                var(--secondary),
+                var(--primary)
+            );
+
+            color:white;
+
+            padding:14px;
+            border-radius:16px;
+
+            font-size:15px;
+            font-weight:600;
+
+            cursor:pointer;
+
+            margin-top:4px;
+
+            box-shadow:0 12px 24px rgba(232,121,249,0.18);
+
+            transition:0.25s ease;
+        }
+
+        button:hover{
+            transform:translateY(-2px);
+        }
+
+        .features{
+            display:flex;
+            justify-content:center;
+            flex-wrap:wrap;
+            gap:10px;
+            margin-top:20px;
+        }
+
+        .features span{
+            background:rgba(255,255,255,0.85);
+            padding:8px 12px;
+            border-radius:12px;
+            font-size:12px;
+            color:var(--text-dark);
+        }
+
+        .bottom-text{
+            margin-top:18px;
+            text-align:center;
+            color:var(--text-light);
+            font-size:14px;
+        }
+
+        .bottom-text a{
+            color:#d946ef;
+            text-decoration:none;
+            font-weight:600;
+        }
+
+        @media(max-width:500px){
+
+            .login-card{
+                padding:28px 22px;
+            }
+
+            h1{
+                font-size:26px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+
+    <div class="login-card">
+
+        <p class="welcome-tag">🌷 Welcome Back</p>
+
+        <div class="logo">🧠</div>
+
+        <h1>MindShield</h1>
+
+        <p class="subtitle">
+            Your safe space to reflect, grow, and prioritize mental wellbeing every day.
+        </p>
+
+        <form action="/login" method="POST">
+
+            <div class="form-group">
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required>
+            </div>
+
+            {% if error %}
+            <div class="error-message">
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <button type="submit">
+                Login
+            </button>
+
+            <div class="features">
+                <span>😊 Mood Tracking</span>
+                <span>📝 Journal</span>
+                <span>💬 Counseling</span>
+            </div>
+
+        </form>
+
+        <div class="bottom-text">
+            Don't have an account?
+            <a href="/signup">Sign Up</a>
+        </div>
+
+    </div>
+
+</body>
+</html>
