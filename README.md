@@ -107,6 +107,7 @@ MindShield/
 │
 ├── app.py
 ├── database.db
+├── requirements.txt
 ├── README.md
 │
 ├── templates/
@@ -124,20 +125,20 @@ MindShield/
 │   ├── signup_choice.html
 │   └── student_signup.html
 │
-├── static/
-│   ├── css/
-│   │   └── style.css
-│   │
-│   └── images/
-│       ├── angry.png
-│       ├── anxious.png
-│       ├── disappointed.png
-│       ├── excited.png
-│       ├── happy.png
-│       ├── loving.png
-│       ├── neutral.png
-│       ├── sad.png
-│       └── surprised.png
+└── static/
+    ├── css/
+    │   └── style.css
+    │
+    └── images/
+        ├── angry.png
+        ├── anxious.png
+        ├── disappointed.png
+        ├── excited.png
+        ├── happy.png
+        ├── loving.png
+        ├── neutral.png
+        ├── sad.png
+        └── surprised.png
 
 ---
 
